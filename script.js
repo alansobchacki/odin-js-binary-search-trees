@@ -38,31 +38,88 @@ class Tree {
   // Task 4 - Write insert(value) and deleteItem(value) functions that insert/delete the given value.
   insert(value, node = this.root) {
     if (!node.left && !node.right) {
-      node.data = value;
-      return node;
+      if (node.data) {
+        value < node.data
+          ? (node.left = new Node(value))
+          : (node.right = new Node(value));
+        return;
+      } else {
+        node.data = value;
+        return;
+      }
     }
 
-    if (value < node.data) {
-      this.insert(value, node.left);
-    } else {
-      this.insert(value, node.right);
+    value < node.data
+      ? this.insert(value, node.left)
+      : this.insert(value, node.right);
+  }
+
+  deleteItem(value, node = this.root, previousNode = null) {
+    // Value doesn't exist in the tree
+    if (!node.left && !node.right && node.data != value) {
+      console.log("No such value in the tree.");
+      return;
     }
+
+    // Deleting a leaf
+    if (!node.left && !node.right && node.data == value) {
+      value < previousNode.data
+        ? (previousNode.left = null)
+        : (previousNode.right = null);
+      return;
+    }
+
+    // Deleting a node that has only one child
+    if (node.data == value) {
+      if (!node.left && node.right) {
+        node = node.right;
+        previousNode.right.data == value
+          ? (previousNode.right = node)
+          : (previousNode.left = node);
+        return;
+      } else if (!node.right && node.left) {
+        node = node.left;
+        previousNode.left.data == value
+          ? (previousNode.left = node)
+          : (previousNode.right = node);
+        return;
+      }
+    }
+
+    // Deleting a node that has 2+ children
+    if (node.data == value && node.right && node.left) {
+      let nextBiggest = node.right;
+      let previousBiggest = node.right;
+
+      if (!nextBiggest.left) {
+        node.data = nextBiggest.data;
+        node.right = null;
+        return;
+      }
+
+      while (nextBiggest.left) {
+        nextBiggest = nextBiggest.left;
+      }
+
+      previousBiggest.left = null;
+      node.data = nextBiggest.data;
+      return;
+    }
+
+    value < node.data
+      ? this.deleteItem(value, node.left, node)
+      : this.deleteItem(value, node.right, node);
   }
 
   // Task 5 - Write a find(value) function that returns the node with the given value.
   find(value, node = this.root) {
-    if (value == this.root.data) {
-      console.log(this.root);
-      return;
-    }
-
     if (value == node.data) {
       console.log(node);
       return;
     }
 
     if (!node.left && !node.right) {
-      console.log("No such value in the tree");
+      console.log("No such value in the tree.");
       return;
     }
 
@@ -71,7 +128,12 @@ class Tree {
       : this.find(value, node.right);
   }
 
-  // Taken from TOP, prints the tree nicely on the console window
+  // Task 6 - Write a levelOrder(callback) function that accepts an optional callback function as its parameter.
+  levelOrder(callback) {
+    //
+  }
+
+  // Taken from TOP, prints the tree on the console window
   prettyPrint(node = this.root, prefix = "", isLeft = true) {
     if (node === null) {
       return;
@@ -90,5 +152,7 @@ class Tree {
   }
 }
 
-const redMaple = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+const redMaple = new Tree([20, 30, 40, 32, 34, 36, 50, 70, 60, 65, 80, 75, 85]);
+redMaple.prettyPrint();
+redMaple.deleteItem(32);
 redMaple.prettyPrint();
