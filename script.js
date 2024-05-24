@@ -1,3 +1,4 @@
+// Task 1 - Build a Node class/factory.
 class Node {
   constructor(data, left = null, right = null) {
     this.data = data;
@@ -6,18 +7,20 @@ class Node {
   }
 }
 
+// Task 2 - Build a Tree class/factory which accepts an array when initialized.
 class Tree {
   constructor(array) {
-    const cleanArray = this.cleanArray(array);
-    this.root = this.buildTree(cleanArray, 0, cleanArray.length - 1);
+    const sortedArray = this.sortedArray(array);
+    this.root = this.buildTree(sortedArray, 0, sortedArray.length - 1);
   }
 
   // Removes duplicates and sorts the original array
-  cleanArray(array) {
-    return [...new Set(array)].sort();
+  sortedArray(array) {
+    return [...new Set(array)].sort((a, b) => a - b);
   }
 
-  // Recursively builds the tree from the sorted array
+  // Task 3 - Write a buildTree(array) function that takes an array of data and turns it into a
+  // balanced binary search tree full of Node objects.
   buildTree(array, start, end) {
     if (start > end) {
       return null;
@@ -30,6 +33,42 @@ class Tree {
     node.right = this.buildTree(array, mid + 1, end);
 
     return node;
+  }
+
+  // Task 4 - Write insert(value) and deleteItem(value) functions that insert/delete the given value.
+  insert(value, node = this.root) {
+    if (!node.left && !node.right) {
+      node.data = value;
+      return node;
+    }
+
+    if (value < node.data) {
+      this.insert(value, node.left);
+    } else {
+      this.insert(value, node.right);
+    }
+  }
+
+  // Task 5 - Write a find(value) function that returns the node with the given value.
+  find(value, node = this.root) {
+    if (value == this.root.data) {
+      console.log(this.root);
+      return;
+    }
+
+    if (value == node.data) {
+      console.log(node);
+      return;
+    }
+
+    if (!node.left && !node.right) {
+      console.log("No such value in the tree");
+      return;
+    }
+
+    value < node.data
+      ? this.find(value, node.left)
+      : this.find(value, node.right);
   }
 
   // Taken from TOP, prints the tree nicely on the console window
@@ -51,5 +90,5 @@ class Tree {
   }
 }
 
-const redMaple = new Tree([1, 2, 3, 4, 2, 0, 9, 5, 6, 7]); // gets turned into [0, 1, 2, 3, 4, 5, 6, 7, 9], 4 is our root
+const redMaple = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 redMaple.prettyPrint();
