@@ -356,7 +356,7 @@ function rebalance(tree) {
 //
 
 function driver() {
-  const tree = new Tree(randomArray(1, 100));
+  const tree = new Tree(randomArray(1, 99));
 
   display(tree);
   checkBalance(tree);
