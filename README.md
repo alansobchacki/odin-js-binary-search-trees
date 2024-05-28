@@ -36,5 +36,5 @@ These were the project requirements:
 What I Learned
 -----
 
-I had already learned the basics of BSTs with Ruby, so I haven't really learned anything new. However, it was a fun project since I revisited topics like traversal orders, binary trees, and stack. Also made me miss Ruby.
+I had already learned the basics of BSTs with Ruby, so I haven't really learned anything new. However, it was a fun project since I revisited topics like traversal orders, binary trees, and stack. I also had to write it all in JavaScript, so it helped me cement these topics better. I also miss Ruby ;_;.
 
